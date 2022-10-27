@@ -7,6 +7,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import safro.archon.enchantment.ArcaneEnchantment;
 import safro.archon.item.WandItem;
 import safro.archon.registry.SpellRegistry;
 import safro.archon.util.ArchonUtil;
@@ -36,31 +37,37 @@ public abstract class Spell {
     }
 
     /**
-     * Called when the player successfully uses the spell. Used to implement spell functionality.
-     * @param world World the spell is being executed in
+     * Called when the player successfully uses the spell. Used to implement spell
+     * functionality.
+     * 
+     * @param world  World the spell is being executed in
      * @param player Player casting the spell
-     * @param stack Stack of the wand item
+     * @param stack  Stack of the wand item
      */
     public abstract void cast(World world, PlayerEntity player, ItemStack stack);
 
     /**
-     * Called when the player uses a wand. Used to check if the player can use this spell
-     * @param world World the spell is being executed in
+     * Called when the player uses a wand. Used to check if the player can use this
+     * spell
+     * 
+     * @param world  World the spell is being executed in
      * @param player Player casting the spell
-     * @param stack Stack of the wand item
+     * @param stack  Stack of the wand item
      */
     public boolean canCast(World world, PlayerEntity player, ItemStack stack) {
         if (stack.getItem() instanceof WandItem wand && wand.getElement() == this.getElement()) {
-            return ArchonUtil.canRemoveMana(player, this.getManaCost());
+            return ArchonUtil.canRemoveMana(player, ArcaneEnchantment.getNewManaCost(stack, this.getManaCost()));
         }
         return false;
     }
 
     /**
-     * Called when the player uses the spell on a block. MUST return either PASS or SUCCESS
-     * @param world World the spell is being executed in
+     * Called when the player uses the spell on a block. MUST return either PASS or
+     * SUCCESS
+     * 
+     * @param world  World the spell is being executed in
      * @param player Player casting the spell
-     * @param stack Stack of the wand item
+     * @param stack  Stack of the wand item
      * @return Returns an ActionResult for a successful or passed cast.
      */
     public ActionResult castOnBlock(World world, BlockPos pos, PlayerEntity player, ItemStack stack) {
@@ -69,6 +76,7 @@ public abstract class Spell {
 
     /**
      * Used to check if a block needs to be casted on a block or not
+     * 
      * @return Returns true if the spell needs to be used on a block
      */
     public boolean isBlockCasted() {

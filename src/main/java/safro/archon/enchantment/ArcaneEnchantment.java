@@ -14,7 +14,7 @@ import safro.archon.util.ArchonUtil;
 public class ArcaneEnchantment extends Enchantment {
 
     public ArcaneEnchantment() {
-        super(Rarity.RARE, EnchantmentTarget.WEAPON, new EquipmentSlot[] {EquipmentSlot.MAINHAND});
+        super(Rarity.RARE, EnchantmentTarget.WEAPON, new EquipmentSlot[] { EquipmentSlot.MAINHAND });
     }
 
     public int getMinPower(int level) {
@@ -38,9 +38,11 @@ public class ArcaneEnchantment extends Enchantment {
     }
 
     /**
-     * Checks for the arcane enchantment and removes mana accordingly. If arcane is not present, the normal mana amount will be removed.
-     * @param player Player using the item
-     * @param stack Stack of the item
+     * Checks for the arcane enchantment and removes mana accordingly. If arcane is
+     * not present, the normal mana amount will be removed.
+     * 
+     * @param player   Player using the item
+     * @param stack    Stack of the item
      * @param manaCost Mana to be removed
      */
     public static void applyArcane(PlayerEntity player, ItemStack stack, int manaCost) {
@@ -51,6 +53,17 @@ public class ArcaneEnchantment extends Enchantment {
             ArchonUtil.get(player).removeMana(manaCost - removed);
         } else {
             ArchonUtil.get(player).removeMana(manaCost);
+        }
+    }
+
+    public static int getNewManaCost(ItemStack stack, int manaCost) {
+        int level = EnchantmentHelper.getLevel(MiscRegistry.ARCANE, stack);
+        if (level >= 1) {
+            double raw = manaCost * (0.1 * level);
+            int removed = (int) Math.round(raw);
+            return manaCost - removed;
+        } else {
+            return manaCost;
         }
     }
 }
