@@ -1,6 +1,7 @@
 package safro.archon.item.sky;
 
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterial;
@@ -24,14 +25,16 @@ public class VacuumCleaverItem extends ManaWeapon {
 
     @Override
     public boolean activate(World world, PlayerEntity player, ItemStack stack, Hand hand) {
-        List<LivingEntity> list = world.getNonSpectatingEntities(LivingEntity.class, player.getBoundingBox().expand(20D));
+        List<LivingEntity> list = world.getNonSpectatingEntities(LivingEntity.class,
+                player.getBoundingBox().expand(20D));
         if (list.size() > 0) {
             for (LivingEntity entity : list) {
-                if (!(entity == player) || !canPull(player, entity)) {
+                if (entity != player && canPull(player, entity)) {
                     double d = player.getX() - entity.getX();
                     double e = player.getY() - entity.getY();
                     double f = player.getZ() - entity.getZ();
-                    entity.setVelocity(d * 0.3D, e * 0.1D + Math.sqrt(Math.sqrt(d * d + e * e + f * f)) * 0.08D, f * 0.3D);
+                    entity.setVelocity(d * 0.3D, e * 0.1D + Math.sqrt(Math.sqrt(d * d + e * e + f * f)) * 0.08D,
+                            f * 0.3D);
                 }
             }
             return true;
@@ -40,13 +43,8 @@ public class VacuumCleaverItem extends ManaWeapon {
     }
 
     private boolean canPull(PlayerEntity player, LivingEntity entity) {
-        if (entity instanceof PlayerEntity p) {
-            if (p.getAbilities().flying) {
-                return false;
-            }
-        }
-        if (!ArchonUtil.isOwnedBy(player, entity)) {
-            return entity.isAlive();
+        if (entity instanceof HostileEntity) {
+            return true;
         }
         return false;
     }
