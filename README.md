@@ -1,9 +1,3 @@
-# Archon
+# Crim's Archon
 
-A combat focused magic mod for Minecraft 1.18.1+, available on the Fabric modloader.
-
-Note: This mod is currently in Beta so please expect bugs
-
-* [Curseforge](https://www.curseforge.com/minecraft/mc-mods/archon)
-* [Discord](https://discord.gg/muAnYRGXrq)
-
+A fork of Safro's awesome [Archon mod](https://github.com/Safrodev/Archon) with some quick-and-dirty tweaks for my personal preference.
