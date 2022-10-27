@@ -6,7 +6,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.item.EnchantedBookItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.village.TradeOffer;
 import net.minecraft.village.TradeOffers;
@@ -21,15 +20,13 @@ public class WizardEnchantBookFactory implements TradeOffers.Factory {
 
     public TradeOffer create(Entity entity, Random random) {
         Enchantment enchantment = MiscRegistry.ARCANE;
-        int i = MathHelper.nextInt(random, enchantment.getMinLevel(), enchantment.getMaxLevel());
-        ItemStack itemStack = EnchantedBookItem.forEnchantment(new EnchantmentLevelEntry(enchantment, i));
-        int j = 2 + random.nextInt(5 + i * 10) + 3 * i;
-        if (enchantment.isTreasure()) {
-            j *= 2;
-        }
-        if (j > 64) {
-            j = 64;
-        }
-        return new TradeOffer(new ItemStack(Items.EMERALD, j), new ItemStack(Items.BOOK), itemStack, 12, this.experience, 0.2F);
+
+        int arcaneEnchantLevel = 1 + random.nextInt(3);
+        int emeraldCost = (5 + random.nextInt(11)) * arcaneEnchantLevel;
+        ItemStack itemStack = EnchantedBookItem
+                .forEnchantment(new EnchantmentLevelEntry(enchantment, arcaneEnchantLevel));
+
+        return new TradeOffer(new ItemStack(Items.EMERALD, emeraldCost), new ItemStack(Items.BOOK), itemStack, 12,
+                this.experience, 0.2F);
     }
 }
