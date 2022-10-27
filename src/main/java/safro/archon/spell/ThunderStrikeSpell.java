@@ -24,6 +24,6 @@ public class ThunderStrikeSpell extends RaycastSpell {
     @Nullable
     @Override
     public SoundEvent getCastSound() {
-        return SoundEvents.ITEM_TRIDENT_THUNDER;
+        return SoundEvents.ENTITY_LIGHTNING_BOLT_IMPACT;
     }
 }
