@@ -24,9 +24,11 @@ import java.util.Set;
 
 @Mixin(PlayerEntity.class)
 public abstract class PlayerEntityMixin {
-    @Shadow public abstract Iterable<ItemStack> getArmorItems();
+    @Shadow
+    public abstract Iterable<ItemStack> getArmorItems();
 
-    @Shadow public abstract void playSound(SoundEvent sound, float volume, float pitch);
+    @Shadow
+    public abstract void playSound(SoundEvent sound, float volume, float pitch);
 
     @Inject(method = "createPlayerAttributes", require = 1, allow = 1, at = @At("RETURN"))
     private static void addAttributes(final CallbackInfoReturnable<DefaultAttributeContainer.Builder> info) {
@@ -54,7 +56,6 @@ public abstract class PlayerEntityMixin {
             ArchonUtil.get(player).setRegenSpeed(5);
         }
     }
-
 
     @Unique
     private int druidBootsTimer = 60;
